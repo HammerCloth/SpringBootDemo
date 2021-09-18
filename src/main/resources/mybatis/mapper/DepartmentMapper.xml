@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syx.springbootdemo.dao.DepartmentDAO">
+
+
+    <!--    //获得所有部门信息-->
+    <!--    public Collection<Department> getDepartments();-->
+    <select id="getDepartments" resultType="department">
+        SELECT *
+        FROM department;
+    </select>
+
+    <!--    //通过id得到部门-->
+    <!--    public Department getDepartment(Integer id);-->
+    <select id="getDepartment" resultType="department" parameterType="int">
+        SELECT *
+        FROM department
+        WHERE id = #{id};
+    </select>
+</mapper>

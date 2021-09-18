@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syx.springbootdemo.dao.EmployeeDAO">
+
+    <resultMap id="emp" type="employee">
+        <result property="id" column="id"/>
+        <result property="lastname" column="lastname"/>
+        <result property="email" column="email"/>
+        <result property="date" column="date"/>
+        <association property="department" javaType="department" column="departmentId"
+                     select="com.syx.springbootdemo.dao.DepartmentDAO.getDepartment">
+            <result property="id" column="id"/>
+            <result property="departmentName" column="departmentName"/>
+        </association>
+    </resultMap>
+
+    <!--    public void add(Employee employee);-->
+    <insert id="add" parameterType="employee">
+        INSERT INTO employee(lastname, email, gender, date, departmentId)
+        VALUES (#{lastname}, #{email}, #{gender}, #{date}, #{department.id});
+    </insert>
+    <!--    // 查询员工信息-->
+    <!--    public Collection<Employee> getAll();-->
+
+    <select id="getAll" resultMap="emp">
+        SELECT *
+        FROM employee;
+    </select>
+    <!--    //通过ID查询员工-->
+    <!--    public Employee getEmployee(Integer id);-->
+    <select id="getEmployee" resultMap="emp" parameterType="int">
+        SELECT *
+        FROM employee
+        WHERE id = #{id};
+    </select>
+    <!--    //通过id删除员工-->
+    <!--    public void DeleteEmployee(Integer id);-->
+    <delete id="DeleteEmployee" parameterType="int">
+        delete
+        from employee
+        where id = #{id};
+    </delete>
+    <!--    //编辑员工信息-->
+    <!--    public void set(Employee employee);-->
+    <update id="set" parameterType="employee">
+        update employee
+        set lastname=#{lastname},
+            email=#{email},
+            gender=#{gender},
+            date=#{date},
+            departmentId=#{department.id}
+        WHERE id = #{id};
+    </update>
+</mapper>
